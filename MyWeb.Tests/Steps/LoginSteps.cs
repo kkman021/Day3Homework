@@ -65,5 +65,12 @@ namespace MyWeb.Tests.Steps
         {
             _welcomePage.CheckMessage(expectMsg);
         }
+
+        [Then(@"錯誤訊息應該為 ""(.*)""")]
+        public void Then錯誤訊息應該為(string expectMsg)
+        {
+            _loginPage.ShowErrorMsg(expectMsg);
+        }
+
     }
 }

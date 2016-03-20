@@ -9,6 +9,7 @@ namespace MyWeb.Tests.PageObjects
     {
         private const string AccountContainer = "#Account";
         private const string PasswordContainer = "#Pwd";
+        private const string ErrormsgContainer = "#ErrorMsg";
 
         public LoginPage(FluentTest test) : base(test)
         {
@@ -29,6 +30,11 @@ namespace MyWeb.Tests.PageObjects
         internal void ClickLogin()
         {
             I.Append(OpenQA.Selenium.Keys.Enter).To(PasswordContainer);
+        }
+
+        internal void ShowErrorMsg(string expectMsg)
+        {
+            I.Assert.Text(expectMsg).In(ErrormsgContainer);
         }
     }
 }

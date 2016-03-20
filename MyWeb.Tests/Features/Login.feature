@@ -10,3 +10,10 @@ Scenario: 登入成功
 	When 當我按下登入
 	Then 應該導回歡迎頁面
 	And 畫面應該呈現 "welcome, ming"
+
+Scenario: 登入失敗帳號或密碼錯誤
+	Given 我前往登入頁面
+	And 帳號輸入 "ming"
+	And 密碼輸入 "isabadman"
+	When 當我按下登入
+	Then 錯誤訊息應該為 "ming is a good man"
