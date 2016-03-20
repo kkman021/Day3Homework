@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using FluentAutomation;
 
 namespace MyWeb.Tests.PageObjects
@@ -9,7 +10,7 @@ namespace MyWeb.Tests.PageObjects
     {
         private const string AccountContainer = "#Account";
         private const string PasswordContainer = "#Pwd";
-        private const string ErrormsgContainer = "#ErrorMsg";
+        private const string ErrormsgContainer = ".validation-summary-errors";
 
         public LoginPage(FluentTest test) : base(test)
         {
@@ -34,7 +35,7 @@ namespace MyWeb.Tests.PageObjects
 
         internal void ShowErrorMsg(string expectMsg)
         {
-            I.Assert.Text(expectMsg).In(ErrormsgContainer);
+            I.Assert.True(() => I.Find(ErrormsgContainer).Element.Text.Contains(expectMsg));
         }
     }
 }

@@ -7,7 +7,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    @Html.ValidationSummary()
     <fieldset>
         <legend>登入</legend>
         <ol>

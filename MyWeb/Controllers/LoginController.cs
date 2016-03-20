@@ -23,6 +23,10 @@ namespace MyWeb.Controllers
         {
             if (model.Account == "ming" && model.Pwd == "1234")
                 return RedirectToAction("Index", "Welcome");
+            else
+            {
+                ModelState.AddModelError("", "ming is a good man");
+            }
 
             return View();
         }
