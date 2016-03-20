@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using FluentAutomation;
 
 namespace MyWeb.Tests.PageObjects
@@ -9,6 +10,16 @@ namespace MyWeb.Tests.PageObjects
         {
             //定義測試網址Url
             Url = $"{ConfigurationManager.AppSettings["TestTargetUrl"]}/{"Welcome"}";
+        }
+
+        internal void CheckPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void CheckMessage(string expectMsg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

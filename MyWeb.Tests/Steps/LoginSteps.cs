@@ -14,41 +14,56 @@ namespace MyWeb.Tests.Steps
         //目標頁面有兩個，登入頁＆歡迎頁面，所以，先宣告兩個Page Object
         private LoginPage _loginPage;
         private WelcomePage _welcomePage;
+        public LoginSteps()
+        {
+            SeleniumWebDriver.Bootstrap(SeleniumWebDriver.Browser.Chrome);
+        }
+
+        //BeforeSenario => 在每次情境開始前要做的事情
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            this._loginPage = new LoginPage(this);
+        }
 
         [Given(@"我前往登入頁面")]
         public void Given我前往登入頁面()
         {
-            ScenarioContext.Current.Pending();
+            //.Go為FluentTest預設提供的方法，不需自己寫
+            _loginPage.Go();
         }
 
         [Given(@"帳號輸入 ""(.*)""")]
-        public void Given帳號輸入(string p0)
+        public void Given帳號輸入(string accountName)
         {
-            ScenarioContext.Current.Pending();
+            //定義Page Object有一個輸入帳號的動作
+            _loginPage.EnterAccount(accountName);
         }
 
         [Given(@"密碼輸入 ""(.*)""")]
-        public void Given密碼輸入(int p0)
+        public void Given密碼輸入(string password)
         {
-            ScenarioContext.Current.Pending();
+            //定義Page Object有一個輸入密碼的動作
+            _loginPage.EnterPwd(password);
         }
 
         [When(@"當我按下登入")]
         public void When當我按下登入()
         {
-            ScenarioContext.Current.Pending();
+            _loginPage.ClickLogin();
         }
 
         [Then(@"應該導回歡迎頁面")]
         public void Then應該導回歡迎頁面()
         {
-            ScenarioContext.Current.Pending();
+            _welcomePage = new WelcomePage(this);
+            _welcomePage.CheckPage();
         }
 
         [Then(@"畫面應該呈現 ""(.*)""")]
-        public void Then畫面應該呈現(string p0)
+        public void Then畫面應該呈現(string expectMsg)
         {
-            ScenarioContext.Current.Pending();
+            _welcomePage.CheckMessage(expectMsg);
         }
     }
 }
