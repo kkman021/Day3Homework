@@ -17,7 +17,7 @@ namespace MyWeb.Tests.PageObjects
         internal void CheckPage()
         {
             //我預期網址要等於定義的網址
-            I.Assert.Url(Url);
+            I.Assert.Url(this.Url);
         }
 
         internal void CheckMessage(string expectMsg)
