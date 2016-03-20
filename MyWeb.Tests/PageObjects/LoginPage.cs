@@ -7,25 +7,28 @@ namespace MyWeb.Tests.PageObjects
     //Page Object必須繼承Page Object
     public class LoginPage : PageObject<LoginPage>
     {
+        private const string AccountContainer = "#Account";
+        private const string PasswordContainer = "#Pwd";
+
         public LoginPage(FluentTest test) : base(test)
         {
             //定義測試網址Url
             Url = $"{ConfigurationManager.AppSettings["TestTargetUrl"]}/{"Login"}";
         }
 
-        public void EnterAccount(string accountName)
+        internal void EnterAccount(string accountName)
         {
-            throw new System.NotImplementedException();
+            I.Enter(accountName).In(AccountContainer);
         }
 
         internal void EnterPwd(string password)
         {
-            throw new NotImplementedException();
+            I.Enter(password).In(PasswordContainer);
         }
 
         internal void ClickLogin()
         {
-            throw new NotImplementedException();
+            I.Append(OpenQA.Selenium.Keys.Enter).To(PasswordContainer);
         }
     }
 }
