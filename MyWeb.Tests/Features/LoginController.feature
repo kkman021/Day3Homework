@@ -9,6 +9,12 @@ Scenario: Login Success
 
 Scenario: Login Fail
 	Given 帳號為 "ming"
-	And 密碼為 ""	
-	When 觸發登入HttpPost Model驗證失敗
+	And 密碼為 "1222"	
+	When 觸發登入HttpPost
 	Then ModelState應該沒通過
+
+Scenario: Login 沒打帳號和密碼
+	Given 帳號為 ""
+	And 密碼為 ""	
+	When 觸發登入HttpPost
+	Then ModelState驗證失敗

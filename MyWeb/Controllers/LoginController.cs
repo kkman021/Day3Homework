@@ -21,6 +21,9 @@ namespace MyWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginVM model)
         {
+            if (!ModelState.IsValid)
+                return View();
+
             if (model.Account == "ming" && model.Pwd == "1234")
                 return RedirectToAction("Index", "Welcome");
             else

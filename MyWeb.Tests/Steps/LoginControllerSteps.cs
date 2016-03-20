@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Web.Mvc;
 using FluentAssertions;
 using FluentAssertions.Mvc;
@@ -42,38 +44,12 @@ namespace MyWeb.Tests.Steps
             var password = ScenarioContext.Current.Get<string>("password");
 
             var loginVm = new LoginVM() { Account = accountName, Pwd = password };
-
-            //驗證ModelValidation
-            var context = new ValidationContext(loginVm, null, null);
-            var results = new List<ValidationResult>();
-            var isModelStateValid = Validator.TryValidateObject(loginVm, context, results, true);
-            Assert.IsTrue(isModelStateValid);
-
+            ScenarioContext.Current.Set<LoginVM>(loginVm, nameof(loginVm));
 
             var actual = this._target.Index(loginVm);
             ScenarioContext.Current.Set<ActionResult>(actual);
         }
-
-        [When(@"觸發登入HttpPost Model驗證失敗")]
-        public void When觸發登入HttpPostModel驗證失敗()
-        {
-            var accountName = ScenarioContext.Current.Get<string>("accountName");
-            var password = ScenarioContext.Current.Get<string>("password");
-
-            var loginVm = new LoginVM() { Account = accountName, Pwd = password };
-
-            //驗證ModelValidation
-            var context = new ValidationContext(loginVm, null, null);
-            var results = new List<ValidationResult>();
-            var isModelStateValid = Validator.TryValidateObject(loginVm, context, results, true);
-
-            isModelStateValid.Should().BeFalse();
-
-            var actual = this._target.Index(loginVm);
-            ScenarioContext.Current.Set<ActionResult>(actual);
-        }
-
-
+        
         [Then(@"回覆的頁面Controller應該為 ""(.*)""")]
         public void Then回覆的頁面Controller應該為(string controllerName)
         {
@@ -96,8 +72,27 @@ namespace MyWeb.Tests.Steps
         [Then(@"ModelState應該沒通過")]
         public void ThenModelState應該沒通過()
         {
-            var actual = ScenarioContext.Current.Get<ActionResult>();
+            var actual = ScenarioContext.Current.Get<ActionResult>() as ViewResult;
 
+            actual.ViewData.ModelState.IsValid.Should().BeFalse();
+            actual.ViewData.ModelState[""].Errors.Count.Should().Be(1);
+            
+            actual.Should().BeViewResult();
+        }
+
+        [Then(@"ModelState驗證失敗")]
+        public void ThenModelState驗證失敗()
+        {
+            var loginVm = ScenarioContext.Current.Get<LoginVM>("loginVm");
+
+            //驗證ModelValidation
+            var context = new ValidationContext(loginVm, null, null);
+            var results = new List<ValidationResult>();
+            var isModelStateValid = Validator.TryValidateObject(loginVm, context, results, true);
+
+            isModelStateValid.Should().BeFalse();
+
+            var actual = ScenarioContext.Current.Get<ActionResult>() as ViewResult;
             actual.Should().BeViewResult();
         }
 
